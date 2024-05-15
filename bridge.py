@@ -1,18 +1,18 @@
 import paho.mqtt.client as mqtt
 import traceback
 import psycopg2
+import os
 
-broker_source = "127.0.0.1"
-broker_source_port = 1883
+broker_source = os.environ['MQTT_HOST']
+broker_source_port = int(os.environ['MQTT_PORT'])
+client_source = mqtt.Client(os.environ['MQTT_CLIENT'])
+client_source.username_pw_set(os.environ['MQTT_USER'], os.environ['MQTT_PWD'])
 
-client_source = mqtt.Client("YourClientId")
-client_source.username_pw_set("YourUsername", "YourPassword")
-
-DatabaseHostName = 'YourHost'
-DatabaseUserName = 'YourUser'
-DatabasePassword = 'YourPassword'
-DatabaseName = 'mqtt'
-DatabasePort = 5432
+DatabaseHostName = os.environ['SQL_HOST']
+DatabaseUserName = os.environ['SQL_USER']
+DatabasePassword = os.environ['SQL_PWD']
+DatabaseName = os.environ['SQL_DB']
+DatabasePort = int(os.environ['SQL_PORT'])
 
 print("Connecting to database")
 connection = psycopg2.connect(
